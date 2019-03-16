@@ -1,0 +1,3 @@
+---
+# vars file for oc-deploy
+ tomcat_dir: /root/apache-tomcat-8.5.38/

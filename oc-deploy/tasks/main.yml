@@ -1,0 +1,30 @@
+---
+# tasks file for oc-deploy
+ - name: check if tomcat is running ir running stop for deployment
+   notify: 
+    - tomcat stop
+ - name: make sure taking backup of existing webapps
+   copy:
+     src: {{ tomcat_dir }}/webapps/*
+     dest: {{ tomcat_dir }}/backup/
+     remote_src: yes
+     owner: root
+     group: root
+     backup: yes
+ - name: remve all  logs and temp
+   shell: rm -rf {{ tomcat_dir }}/temp/* ; rm -rf {{ tomcat_dir }}/logs/*
+   
+ - name: remove the webapps dir post bakup
+   shell: rm -rf {{ tomcat_dir }}/webapps/*
+ - name: copy the artifact that need to be deployed.
+   maven_artifact:
+     group_id: com.compay
+     artifact_id: web-app
+     extension: war
+     repository_url: 'https://repo.company.com/maven'
+     dest: {{ tomcat_dir }}/webapps/
+ - name: restart tomcat
+   notify:
+    - tomcat start
+    
+

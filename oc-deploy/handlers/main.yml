@@ -1,0 +1,11 @@
+---
+# handlers file for oc-deploy
+ - name: tomcat stop
+   service: 
+     name: tomcat
+     state:  stopped
+ - name: tomcat start
+   service: 
+     name: tomcat
+     state: started
+ 
